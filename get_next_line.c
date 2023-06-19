@@ -6,46 +6,106 @@
 /*   By: llegrand <llegrand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 15:29:59 by llegrand          #+#    #+#             */
-/*   Updated: 2023/05/11 15:29:59 by llegrand         ###   ########.fr       */
+/*   Updated: 2023/06/19 18:00:23 by llegrand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*cut_to_nl(char *str)
+char	*join_free(char *memory, char *new_content)
 {
-	int	i;
+	char	*tmp;
 
- 	i = 0;
-	while (str[i])
+	tmp = ft_strjoin(memory, new_content);
+	free(memory);
+	return (tmp);
+}
+
+char	*get_to_nl(char *memory)
+{
+	char	*line;
+	int		i;
+
+	i = 0;
+	if (!memory[i])
+		return (NULL);
+	while (memory[i] && memory[i] != '\n')
+		i++;
+	line = ft_calloc(i + 2, sizeof(char));
+	i = 0;
+	while (memory[i] && memory[i] != '\n')
 	{
-		if (str[i] == '\n')
-		{
-			return (ft_substr(str, 0, i + 1));
-		}
+		line[i] = memory[i];
 		i++;
 	}
-	return ("\0");
+	if (memory[i] && memory[i] == '\n')
+		line[i++] = '\n';
+	return (line);
 }
 
-void	read_line(int fd, char **line)
+char	*get_from_nl(char *memory)
 {
-	static char buffer[BUFFER_SIZE];
-	int			size;
-	int			nli;
-	
-	size = read(fd, buffer, BUFFER_SIZE);
-	nli = ft_strichr(buffer, '\n');
-	if (nli != -1)
-		*line = cut_to_nl(buffer);
-	else
-		*line = ft_strdup("no newline in buffer\n");
+	int		i;
+	int		j;
+	char	*rem;
+
+	i = 0;
+	while (memory[i] && memory[i] != '\n')
+		i++;
+	if (!memory[i])
+	{
+		free(memory);
+		return (NULL);
+	}
+	rem = ft_calloc((ft_strlen(memory) - i + 1), sizeof(char));
+	i++;
+	j = 0;
+	while (memory[i])
+		rem[j++] = memory[i++];
+	free(memory);
+	return (rem);
 }
 
-char *get_next_line(int fd)
+char	*read_file_until_nl(int fd, char *memory)
 {
+	char	*new_content;
+	int		bytes_read;
+
+	if (!memory)
+		memory = ft_calloc(1, 1);
+	new_content = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	bytes_read = 1;
+	while (bytes_read > 0)
+	{
+		bytes_read = read(fd, new_content, BUFFER_SIZE);
+		if (bytes_read == -1)
+		{
+			free(new_content);
+			free(memory);
+			return (NULL);
+		}
+		new_content[bytes_read] = 0;
+		memory = join_free(memory, new_content);
+		if (ft_strchr(memory, '\n'))
+			break ;
+	}
+	free(new_content);
+	return (memory);
+}
+
+char	*get_next_line(int fd)
+{
+	static char	*memory;
 	char		*line;
 
-	read_line(fd, &line);
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
+	if (BUFFER_SIZE > 2147483647)
+		return (NULL);
+	memory = read_file_until_nl(fd, memory);
+	if (!memory)
+		return (NULL);
+	line = get_to_nl(memory);
+	memory = get_from_nl(memory);
 	return (line);
 }

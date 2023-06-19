@@ -17,12 +17,17 @@ int main(int argc, char **argv)
 {
 	int	fd;
 	int i;
-
+	char *line;
+	
 	printf("BUFFER_SIZE:%i\nFILE:%s\nFILE_CONTENT:\n", BUFFER_SIZE, argv[1]);
 
 	fd = open(argv[1], O_RDONLY);
-	for (i = 26; i > 0; i--)
-		printf("%s", get_next_line(fd));
+	for (i = 0; i < 113; i++)
+	{
+		line = get_next_line(fd);
+		printf("line %i: <%s>\n", i + 1, line);
+		free(line);
+	}
 	close(fd);
 	return (0);
 }

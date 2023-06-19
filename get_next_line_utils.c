@@ -13,25 +13,6 @@
 #include "get_next_line.h"
 
 /** 
- * @brief  Return a pointer to a new string which
- * is a duplicate of [s].
- * @note   Memory for the new string is obtained 
- * with malloc and can be freed with free
- * @param  char *c
- * @retval char*
- */
-char	*ft_strdup(const char *c)
-{
-	void	*p;
-
-	p = ft_calloc(ft_strlen((char *)c) + 1, sizeof(char));
-	if (!p)
-		return (0);
-	ft_strlcpy(p, c, ft_strlen((char *)c) + 1);
-	return (p);
-}
-
-/** 
  * @brief  Return a pointer to a new string which is
  * the result of the concatenation of [s1] and [s2]
  * @note   Memory for the new string is obtained 
@@ -70,6 +51,65 @@ void	*ft_calloc(size_t nmemb, size_t size)
 		return (0);
 	ft_bzero(p, nmemb * size);
 	return (p);
+}
+
+/** 
+ * @brief  Calculates the length of the string pointed 
+ * to by [str], excluding the terminator.
+ * @param  char *str
+ * @retval size_t
+ */
+size_t	ft_strlen(const char *str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str && str[i] && str[i] != '\0')
+		i++;
+	return (i);
+}
+
+/** 
+ * @brief  Zero data in n bytes of memory starting at the location pointed by s
+ * @param  void *s
+ * @param  size_t n
+ */
+void	ft_bzero(void *s, size_t n)
+{
+	size_t	i;
+
+	if (!s || !n)
+		return ;
+	i = 0;
+	while (i < n)
+	{
+		((unsigned char *)s)[i] = 0;
+		i++;
+	}
+}
+
+/** 
+ * @brief  Scan the string [s] for the first occurence of [c]
+ * @param  char *s
+ * @param  int *c
+ * @retval char*
+ */
+char	*ft_strchr(const char *s, int c)
+{
+	char	*ptr;
+
+	if (!s)
+		return (0);
+	ptr = (char *)s;
+	while (*ptr)
+	{
+		if (*ptr == (char)c)
+			return (ptr);
+		ptr++;
+	}
+	if (*ptr == (char)c)
+		return (ptr);
+	return (0);
 }
 
 /** 
@@ -133,117 +173,4 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 	if (dstsize)
 		dst[dsti] = '\0';
 	return (srci);
-}
-
-/** 
- * @brief  Calculates the length of the string pointed 
- * to by [str], excluding the terminator.
- * @param  char *str
- * @retval size_t
- */
-size_t	ft_strlen(const char *str)
-{
-	size_t	i;
-
-	i = 0;
-	while (str && str[i] && str[i] != '\0')
-		i++;
-	return (i);
-}
-
-/** 
- * @brief  Zero data in n bytes of memory starting at the location pointed by s
- * @param  void *s
- * @param  size_t n
- */
-void	ft_bzero(void *s, size_t n)
-{
-	size_t	i;
-
-	if (!s || !n)
-		return ;
-	i = 0;
-	while (i < n)
-	{
-		((unsigned char *)s)[i] = 0;
-		i++;
-	}
-}
-
-/** 
- * @brief  Scan the string [s] for the first occurence of [c]
- * @param  char *s
- * @param  int *c
- * @retval char*
- */
-char	*ft_strchr(const char *s, int c)
-{
-	char	*ptr;
-
-	if (!s)
-		return (0);
-	ptr = (char *)s;
-	while (*ptr)
-	{
-		if (*ptr == (char)c)
-			return (ptr);
-		ptr++;
-	}
-	if (*ptr == (char)c)
-		return (ptr);
-	return (0);
-}
-
-/** 
- * @brief  Returns a substring from [s]. The substring begins
- * at index [start] and is of maximum size [len].
- * @note   Memory for the new string is obtained
- * with malloc and can be freed with free
- * @param  char *s
- * @param  int start
- * @param  size_t len
- * @retval char*
- */
-char	*ft_substr(char const *s, unsigned int start, size_t len)
-{
-	char	*p;
-
-	if (!s)
-		return (0);
-	if (start > ft_strlen((char *)s))
-		return (ft_strdup(""));
-	if (start + len > ft_strlen(s))
-		len = ft_strlen(s) - start;
-	p = (char *)ft_calloc(sizeof(char), (len + 1));
-	if (!p)
-		return (0);
-	s += start;
-	if (s)
-		ft_strlcpy(p, s, len + 1);
-	return (p);
-}
-
-/** 
- * @brief  Scan the string [s] for the first occurence of [c]
- * @param  char *s
- * @param  int *c
- * @retval char*
- */
-int	ft_strichr(const char *s, int c)
-{
-	char	*ptr;
-	int	i;
-
-	if (!s)
-		return (-1);
-	ptr = (char *)s;
-	while (ptr[i])
-	{
-		if (ptr[i] == (char)c)
-			return (i);
-		i++;
-	}
-	if (ptr[i] == (char)c)
-		return (i);
-	return (-1);
 }

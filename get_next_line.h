@@ -16,6 +16,10 @@
 #include <stdlib.h>
 #include <fcntl.h>
 char *get_next_line(int fd);
+char	*join_free(char *memory, char *new_content);
+char	*get_to_nl(char *memory);
+char	*get_from_nl(char *memory);
+char	*read_file_until_nl(int fd, char *memory);
 
 char	*ft_strdup(const char *c);
 char	*ft_strjoin(char const *s1, char const *s2);

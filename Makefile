@@ -38,9 +38,10 @@ all : $(NAME)
 
 re : fclean all
 
-test : $(NAME) main.c
-	@gcc -I. -g $(SRCS) main.c -D BUFFER_SIZE=$(bs) -o a.out
-	@./a.out $(file)
+test : main.c
+	reset
+	gcc -I. -fdiagnostics-color=always -g3 $(SRCS) main.c -D BUFFER_SIZE=$(bs) -o main
+	valgrind --leak-check=full --show-leak-kinds=all ./main $(file)
 
 reset :
 	reset
