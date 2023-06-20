@@ -15,7 +15,6 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
-# include <stdarg.h>
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
 # endif
@@ -25,12 +24,9 @@ char	*join_free(char *memory, char *new_content);
 char	*get_to_nl(char *memory);
 char	*get_from_nl(char *memory);
 char	*read_file_until_nl(int fd, char *memory);
-char	*fail(int i, ...);
 
 char	*ft_strjoin(char const *s1, char const *s2);
 void	*ft_calloc(size_t nmemb, size_t size);
-// size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
-// size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 size_t	ft_strlen(const char *str);
 void	ft_bzero(void *s, size_t n);
 char	*ft_strchr(const char *s, int c);
