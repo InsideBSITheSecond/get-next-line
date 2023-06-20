@@ -21,18 +21,46 @@
  * @param  char *s2
  * @retval char*
  */
+// char	*ft_strjoin(char const *s1, char const *s2)
+// {
+// 	void	*p;
+// 	size_t	s;
+
+// 	s = ft_strlen((char *)s1) + ft_strlen((char *)s2) + 1;
+// 	p = ft_calloc(sizeof(char), s);
+// 	if (!p)
+// 		return (0);
+// 	ft_strlcpy(p, s1, ft_strlen((char *)s1) + 1);
+// 	ft_strlcat(p, s2, s);
+// 	return (p);
+// }
+
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	void	*p;
-	size_t	s;
+	int		sizetotal;
+	char	*res;
+	int		i;
+	int		j;
 
-	s = ft_strlen((char *)s1) + ft_strlen((char *)s2) + 1;
-	p = ft_calloc(sizeof(char), s);
-	if (!p)
-		return (0);
-	ft_strlcpy(p, s1, ft_strlen((char *)s1) + 1);
-	ft_strlcat(p, s2, s);
-	return (p);
+	i = 0;
+	sizetotal = ft_strlen(s1) + ft_strlen(s2);
+	res = malloc(sizeof(char) * (sizetotal + 1));
+	if (!res || !s1 || !s2)
+		return (NULL);
+	while (s1[i] != 0)
+	{
+		res[i] = s1[i];
+		i++;
+	}
+	j = 0;
+	while (s2[j] != 0)
+	{
+		res[i] = s2[j];
+		i++;
+		j++;
+	}
+	res[sizetotal] = 0;
+	return (res);
 }
 
 /** 
@@ -122,27 +150,27 @@ char	*ft_strchr(const char *s, int c)
  * @param  size_t dstsize
  * @retval size_t
  */
-size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
-{
-	size_t	i;
-	size_t	l;
+// size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
+// {
+// 	size_t	i;
+// 	size_t	l;
 
-	l = ft_strlen(dst) + ft_strlen((char *)src);
-	if (dstsize == 0)
-		return (ft_strlen((char *)src));
-	if (ft_strlen(dst) >= dstsize)
-		return (ft_strlen((char *)src) + dstsize);
-	i = 0;
-	while (*dst)
-		dst++;
-	while ((i < dstsize - (l - ft_strlen((char *)src)) - 1) && src[i])
-	{
-		dst[i] = src[i];
-		i++;
-	}
-	dst[i] = '\0';
-	return (l);
-}
+// 	l = ft_strlen(dst) + ft_strlen((char *)src);
+// 	if (dstsize == 0)
+// 		return (ft_strlen((char *)src));
+// 	if (ft_strlen(dst) >= dstsize)
+// 		return (ft_strlen((char *)src) + dstsize);
+// 	i = 0;
+// 	while (*dst)
+// 		dst++;
+// 	while ((i < dstsize - (l - ft_strlen((char *)src)) - 1) && src[i])
+// 	{
+// 		dst[i] = src[i];
+// 		i++;
+// 	}
+// 	dst[i] = '\0';
+// 	return (l);
+// }
 
 /** 
  * @brief  Copies the [src] string to the [dst] buffer, 
@@ -154,23 +182,23 @@ size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
  * @param  size_t dstsize
  * @retval size_t
  */
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
-{
-	size_t	dsti;
-	size_t	srci;
+// size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
+// {
+// 	size_t	dsti;
+// 	size_t	srci;
 
-	dsti = 0;
-	srci = 0;
-	if (!dst || !src)
-		return (0);
-	while (src[srci] != '\0')
-		srci++;
-	while (src[dsti] && dsti + 1 < dstsize)
-	{
-		dst[dsti] = src[dsti];
-		dsti++;
-	}
-	if (dstsize)
-		dst[dsti] = '\0';
-	return (srci);
-}
+// 	dsti = 0;
+// 	srci = 0;
+// 	if (!dst || !src)
+// 		return (0);
+// 	while (src[srci] != '\0')
+// 		srci++;
+// 	while (src[dsti] && dsti + 1 < dstsize)
+// 	{
+// 		dst[dsti] = src[dsti];
+// 		dsti++;
+// 	}
+// 	if (dstsize)
+// 		dst[dsti] = '\0';
+// 	return (srci);
+// }
