@@ -6,7 +6,7 @@
 /*   By: llegrand <llegrand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 15:29:59 by llegrand          #+#    #+#             */
-/*   Updated: 2023/06/20 13:23:28 by llegrand         ###   ########.fr       */
+/*   Updated: 2023/06/20 16:44:02 by llegrand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ char	*get_to_nl(char *memory)
 	while (memory[i] && memory[i] != '\n')
 		i++;
 	line = ft_calloc(i + 2, sizeof(char));
+	if (!line)
+		return (NULL);
 	i = 0;
 	while (memory[i] && memory[i] != '\n')
 	{
@@ -58,6 +60,8 @@ char	*get_from_nl(char *memory)
 		return (NULL);
 	}
 	rem = ft_calloc((ft_strlen(memory) - i + 1), sizeof(char));
+	if (!rem)
+		return (NULL);
 	i++;
 	j = 0;
 	while (memory[i])
@@ -74,6 +78,8 @@ char	*read_file_until_nl(int fd, char *memory)
 	if (!memory)
 		memory = ft_calloc(1, 1);
 	new_content = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	if (!new_content || !memory)
+		return (NULL);
 	bytes_read = 1;
 	while (bytes_read > 0)
 	{
